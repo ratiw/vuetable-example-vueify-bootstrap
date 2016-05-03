@@ -31,13 +31,22 @@ var tableColumns = [
     {
         name: 'gender',
         sortField: 'gender',
-        titleClass: 'center aligned',
-        dataClass: 'center aligned',
+        titleClass: 'text-center',
+        dataClass: 'text-center',
         callback: 'gender'
     },
     {
+        name: 'created_at',
+        title: 'Created',
+        titleClass: 'text-center',
+        dataClass: 'text-center',
+        callback: 'formatDate|D/MM/Y'
+    },
+    {
         name: '__actions',
-        dataClass: 'center aligned',
+        title: '',
+        titleClass: 'text-center',
+        dataClass: 'text-center',
     }
 ]
 
