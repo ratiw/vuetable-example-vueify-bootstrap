@@ -83,10 +83,17 @@ new Vue({
         },
         'paginationComponent': function(val, oldVal) {
             this.$broadcast('vuetable:load-success', this.$refs.vuetable.tablePagination)
-            this.$broadcast('vuetable-pagination:setting',
-                'icons',
-                { prev: 'glyphicon glyphicon-chevron-left', next: 'glyphicon glyphicon-chevron-right' }
-            )
+            if (val == 'vuetable-pagination-dropdown') {
+                this.$broadcast('vuetable-pagination:set-options', {
+                    icons: {
+                        prev: 'glyphicon glyphicon-chevron-left',
+                        next: 'glyphicon glyphicon-chevron-right'
+                    },
+                    wrapperClass: 'form-inline',
+                    dropdownClass: 'form-control',
+                    linkClass: 'btn btn-default'
+                })
+            }
         }
     },
     methods: {
