@@ -1,8 +1,8 @@
 var Vue = require('vue')
 var VueResource = require('vue-resource')
 var Vuetable = require('vuetable/src/components/Vuetable.vue')
+var VuetablePagination = require('vuetable/src/components/VuetablePagination.vue')
 var VuetablePaginationDropdown = require('vuetable/src/components/VuetablePaginationDropdown.vue')
-var VuetablePaginationBootstrap = require('vuetable/src/components/VuetablePaginationBootstrap.vue')
 
 Vue.use(VueResource)
 
@@ -52,7 +52,7 @@ var tableColumns = [
 
 // Vue.config.debug = true
 
-Vue.component('vuetable-pagination-bootstrap', VuetablePaginationBootstrap)
+Vue.component('vuetable-pagination', VuetablePagination)
 Vue.component('vuetable-pagination-dropdown', VuetablePaginationDropdown)
 
 new Vue({
@@ -68,7 +68,7 @@ new Vue({
             direction: 'asc'
         },
         perPage: 10,
-        paginationComponent: 'vuetable-pagination-bootstrap',
+        paginationComponent: 'vuetable-pagination',
         paginationInfoTemplate: 'แสดง {from} ถึง {to} จากทั้งหมด {total} รายการ',
         itemActions: [
             { name: 'view-item', label: '', icon: 'glyphicon glyphicon-zoom-in', class: 'btn btn-info' },
@@ -83,17 +83,7 @@ new Vue({
         },
         'paginationComponent': function(val, oldVal) {
             this.$broadcast('vuetable:load-success', this.$refs.vuetable.tablePagination)
-            if (val == 'vuetable-pagination-dropdown') {
-                this.$broadcast('vuetable-pagination:set-options', {
-                    icons: {
-                        prev: 'glyphicon glyphicon-chevron-left',
-                        next: 'glyphicon glyphicon-chevron-right'
-                    },
-                    wrapperClass: 'form-inline',
-                    dropdownClass: 'form-control',
-                    linkClass: 'btn btn-default'
-                })
-            }
+            this.paginationConfig(this.paginationComponent)
         }
     },
     methods: {
@@ -152,6 +142,25 @@ new Vue({
                 '<span class="highlight">$1</span>'
             )
         },
+        paginationConfig: function(componentName) {
+            console.log('paginationConfig: ', componentName)
+            if (componentName == 'vuetable-pagination') {
+                this.$broadcast('vuetable-pagination:set-options', {
+                    wrapperClass: 'pagination',
+                    icons: { first: '', prev: '', next: '', last: ''},
+                    activeClass: 'active',
+                    linkClass: 'btn btn-default',
+                    pageClass: 'btn btn-default'
+                })
+            }
+            if (componentName == 'vuetable-pagination-dropdown') {
+                this.$broadcast('vuetable-pagination:set-options', {
+                    wrapperClass: 'form-inline',
+                    icons: { prev: 'glyphicon glyphicon-chevron-left', next: 'glyphicon glyphicon-chevron-right' },
+                    dropdownClass: 'form-control'
+                })
+            }
+        }
     },
     events: {
         'vuetable:action': function(action, data) {
