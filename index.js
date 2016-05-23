@@ -3,8 +3,10 @@ var VueResource = require('vue-resource')
 var Vuetable = require('vuetable/src/components/Vuetable.vue')
 var VuetablePagination = require('vuetable/src/components/VuetablePagination.vue')
 var VuetablePaginationDropdown = require('vuetable/src/components/VuetablePaginationDropdown.vue')
+var VueEditable = require('./components/vue-editable.js')
 
 Vue.use(VueResource)
+Vue.use(VueEditable)
 
 var E_SERVER_ERROR = 'Error communicating with the server'
 
@@ -173,6 +175,12 @@ new Vue({
             } else if (action == 'delete-item') {
                 sweetAlert(action, data.name)
             }
+        },
+        'vuetable:cell-dblclicked': function(item, field, event) {
+            console.log('cell-dblclicked: old value =', item[field.name])
+            this.$editable(event, function(value) {
+                console.log('$editable callback:', value)
+            })
         },
         'vuetable:load-success': function(response) {
             console.log('main.js: total = ', response.data.total)
