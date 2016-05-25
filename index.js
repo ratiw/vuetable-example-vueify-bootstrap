@@ -177,6 +177,7 @@ new Vue({
             }
         },
         'vuetable:cell-dblclicked': function(item, field, event) {
+            var self = this
             console.log('cell-dblclicked: old value =', item[field.name])
             this.$editable(event, function(value) {
                 console.log('$editable callback:', value)
